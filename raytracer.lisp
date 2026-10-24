@@ -14,6 +14,10 @@
   width
   height)
 
+(defun paint-canvas (canvas x y color)
+  (setf (aref (canvas-pixels canvas) y x)
+        color))
+
 (defstruct app
   window
   renderer
@@ -125,8 +129,7 @@
                                (ray (make-ray :origin (camera-position camera) :direction eye-vector))
                                (hit (intersect objects ray))
                                (color (shade-ray ray (camera-position camera) hit lights)))
-          (setf (aref (canvas-pixels canvas) y x)
-                color))))))
+          (paint-canvas canvas x y color))))))
 
 (defun shade-ray (ray eye hit lights)
   (let ((results (loop for light in lights
