@@ -120,14 +120,13 @@
          (plane (camera-plane camera aspect w h)))
     (dotimes (y h)
       (dotimes (x w)
-        (let* ((px (pixel-vector plane x y))
-               (eye-vector (normalize (sub px (camera-position camera))))
-               (ray (make-ray :origin (camera-position camera) :direction eye-vector))
-               (hit (intersect objects ray)))
-          (when hit
-            (let ((color (shade-ray ray (camera-position camera) hit lights)))
-              (setf (aref (canvas-pixels canvas) y x)
-                    color))))))))
+        (alexandria:when-let* ((px (pixel-vector plane x y))
+                               (eye-vector (normalize (sub px (camera-position camera))))
+                               (ray (make-ray :origin (camera-position camera) :direction eye-vector))
+                               (hit (intersect objects ray))
+                               (color (shade-ray ray (camera-position camera) hit lights)))
+          (setf (aref (canvas-pixels canvas) y x)
+                color))))))
 
 (defun shade-ray (ray eye hit lights)
   (let ((results (loop for light in lights

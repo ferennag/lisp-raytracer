@@ -6,7 +6,7 @@
   :license  "Specify license here"
   :version "0.0.1"
   :serial t
-  :depends-on (:sdl3)
+  :depends-on (:sdl3 :alexandria)
   :components ((:file "package")
                (:file "math")
                (:file "color")
